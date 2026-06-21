@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
-import { calcStats, buildEquityCurve, buildMonthlyPnL } from "../utils/tradeUtils";
 import { calcStats, buildEquityCurve, buildMonthlyPnL, buildRDistribution } from "../utils/tradeUtils";
 import { format } from "date-fns";
 import StatCard from "../components/StatCard";
@@ -29,8 +28,7 @@ export default function Dashboard({ trades }) {
   const stats = useMemo(() => calcStats(trades), [trades]);
   const curve = useMemo(() => buildEquityCurve(trades), [trades]);
   const monthly = useMemo(() => buildMonthlyPnL(trades), [trades]);
-    const distribution = useMemo(() => buildRDistribution(trades, 0.5), [trades]);
-    <SmallCharts monthly={monthly} stats={stats} distribution={distribution} />
+  const distribution = useMemo(() => buildRDistribution(trades, 0.5), [trades]);
   const recentTrades = [...trades].sort((a,b) => new Date(b.date)-new Date(a.date)).slice(0,5);
 
   const rColor = stats.totalR >= 0 ? "var(--green)" : "var(--red)";
